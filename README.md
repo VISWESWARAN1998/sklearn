@@ -30,5 +30,5 @@ int main()
 	simple_linear_regression slr("model.txt");
 	std::cout << slr.predict(8);
 }
-``
+
 ```
