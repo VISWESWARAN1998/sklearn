@@ -24,6 +24,10 @@ int main()
 Loading existing model
 
 ```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include "lsr.h"
+
 int main()
 {
 	// X, y, print_debug messages
