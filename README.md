@@ -13,8 +13,8 @@ Creating new model and saving it
 int main()
 {
 	// X, y, print_debug messages
-	simple_linear_regression slr({2, 3, 5, 7, 9}, {4, 5, 7, 10, 15}, true);
-	slr.train();
+	simple_linear_regression slr({2, 3, 5, 7, 9}, {4, 5, 7, 10, 15}, DEBUG);
+	slr.fit();
 	std::cout << slr.predict(8);
 	slr.save_model("model.txt");
 }

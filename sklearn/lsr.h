@@ -1,6 +1,10 @@
 // SWAMI KARUPPASWAMI THUNNAI
 
 #pragma once
+
+#define NODEBUG 0
+#define DEBUG 1
+
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -15,7 +19,7 @@ class simple_linear_regression
 {
 private:
 	// ~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~
-	unsigned int N=0.0;
+	unsigned int N=0;
 
 	// Independent and dependent variable
 	std::vector<double> X;
@@ -55,8 +59,8 @@ private:
 	void calculate_bias();
 public:
 	simple_linear_regression(std::string model_name);
-	simple_linear_regression(std::vector<double> X, std::vector<double> y, bool verbose = false);
-	void train();
+	simple_linear_regression(std::vector<double> X, std::vector<double> y, unsigned short verbose);
+	void fit();
 	double predict(double _X);
 	void save_model(std::string file_name);
 };

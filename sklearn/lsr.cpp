@@ -110,7 +110,7 @@ simple_linear_regression::simple_linear_regression(std::string model_name)
 }
 
 // constructor for start training new model
-simple_linear_regression::simple_linear_regression(std::vector<double> X, std::vector<double> y, bool verbose)
+simple_linear_regression::simple_linear_regression(std::vector<double> X, std::vector<double> y, unsigned short verbose)
 {
 	this->X = X;
 	this->y = y;
@@ -118,7 +118,7 @@ simple_linear_regression::simple_linear_regression(std::vector<double> X, std::v
 }
 
 // method to train our model, where all methods merges. 
-void simple_linear_regression::train()
+void simple_linear_regression::fit()
 {
 	print("Training");
 	this->calculate_N();
