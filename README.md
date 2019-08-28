@@ -36,3 +36,6 @@ int main()
 }
 
 ```
+
+**OUTPUT:**
+![](static/slr.png)
