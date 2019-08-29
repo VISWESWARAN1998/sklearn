@@ -57,3 +57,15 @@ std::vector<double> StandardScaler::scale()
 	}
 	return standardized_array;
 }
+
+std::vector<double> preprocessing::normalize(std::vector<double> array)
+{
+	double min = *std::min_element(array.begin(), array.end());
+	double max = *std::max_element(array.begin(), array.end());
+	std::vector<double> normalized_array;
+	for (double i : array)
+	{
+		normalized_array.push_back((i - min) / (max - min));
+	}
+	return normalized_array;
+}

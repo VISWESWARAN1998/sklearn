@@ -51,3 +51,8 @@ public:
 
 	std::vector<double> scale();
 };
+
+namespace preprocessing
+{
+	std::vector<double> normalize(std::vector<double> array);
+}
