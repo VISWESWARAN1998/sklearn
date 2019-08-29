@@ -1,6 +1,7 @@
 // SWAMI KARUPPASWAMI THUNNAI
 
 #include "preprocessing.h"
+#include "statx.h"
 
 template<typename T>
 inline void LabelEncoder<T>::fit()
@@ -41,3 +42,18 @@ std::vector<unsigned long int> LabelEncoder<T>::fit_transorm()
 
 template class LabelEncoder<std::string>;
 template class LabelEncoder<std::wstring>;
+
+std::vector<double> StandardScaler::scale()
+{
+	mean<double> mean_object;
+	u = mean_object.get_mean(array);
+	standard_deviation<double> sd;
+	s = sd.get_standard_deviation(array);
+	std::vector<double> standardized_array;
+	for (double x : array)
+	{
+		double z = (x - u) / s;
+		standardized_array.push_back(z);
+	}
+	return standardized_array;
+}

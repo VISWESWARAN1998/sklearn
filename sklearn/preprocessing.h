@@ -26,3 +26,28 @@ public:
 
 	std::vector<unsigned long int> fit_transorm();
 };
+
+/*
+For standardization
+-------------------
+
+Formula:
+	z = (x - u) / s
+
+Varaible names:
+~~~~~~~~~~~~~~~~~~~~~~
+u = mean
+s = standard deviation
+
+Written By: Visweswaran N, 2019-08-29
+*/
+class StandardScaler
+{
+private:
+	std::vector<double> array;
+	double u, s;
+public:
+	StandardScaler(std::vector<double> array): array(array){}
+
+	std::vector<double> scale();
+};

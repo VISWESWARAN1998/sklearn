@@ -3,6 +3,8 @@ Trying to implement Scikit Learn for Python in C++
 
 #### Least Squares Regression
 
+**HEADERS NEEDED:** lsr.h and lsr.cpp
+
 Creating new model and saving it
 
 ```c++
@@ -39,3 +41,25 @@ int main()
 
 **OUTPUT:**
 ![](static/slr.png)
+
+
+#### STANDARDIZATION
+
+**HEADERS NEEDED:** preprocessing.h, proecessing.cpp and statx.h
+
+```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include <iostream>
+#include "preprocessing.h"
+
+int main()
+{
+	StandardScaler scaler({0, 0, 1, 1});
+	std::vector<double> scaled = scaler.scale();
+	for (double i : scaled)
+	{
+		std::cout << i << ", ";
+	}
+}
+```
