@@ -11,6 +11,23 @@
 #include <map>
 
 
+class __feature_row
+{
+private:
+	double feature_value;
+	unsigned long int neg_feature_count;
+	unsigned long int y_value;
+	unsigned long int rows_matched;
+public:
+	__feature_row(double feature_value, unsigned long int neg_feature_count, unsigned long int y_value, unsigned long int rows_matched=0): feature_value(feature_value), neg_feature_count(neg_feature_count), y_value(y_value),rows_matched(rows_matched){}
+
+	double get_feature_value();
+	unsigned long int get_neg_feature_count();
+	unsigned long int get_rows_matched();
+	unsigned long int get_y_value();
+	void increment_rows_matched();
+};
+
 class naive_bayes
 {
 
@@ -28,11 +45,18 @@ private:
 	// Dependent variable probabilities
 	std::map<unsigned long int, double> y_prob;
 
+	// Labels of y
+	std::set<unsigned long int> labels;
+
+	// Column probabilities
+	std::map<unsigned long int, std::vector<__feature_row>> X_probabilities;
+
 private:
 	void print(std::string message);
 
 	void calculate_y_probabilities();
 	void calculate_x_probabilities();
+	void display_x_probabilities();
 
 public:
 	naive_bayes(std::vector<std::vector<double>> X, std::vector<unsigned long int> y, unsigned short verbose): X(X), y(y), verbose(verbose){}
