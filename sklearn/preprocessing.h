@@ -50,6 +50,8 @@ public:
 	StandardScaler(std::vector<double> array): array(array){}
 
 	std::vector<double> scale();
+
+	double inverse_scale(double z);
 };
 
 namespace preprocessing

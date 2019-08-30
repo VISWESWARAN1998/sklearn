@@ -58,6 +58,11 @@ std::vector<double> StandardScaler::scale()
 	return standardized_array;
 }
 
+double StandardScaler::inverse_scale(double z)
+{
+	return (z * s) + u;
+}
+
 std::vector<double> preprocessing::normalize(std::vector<double> array)
 {
 	double min = *std::min_element(array.begin(), array.end());

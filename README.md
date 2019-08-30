@@ -57,9 +57,10 @@ int main()
 {
 	StandardScaler scaler({0, 0, 1, 1});
 	std::vector<double> scaled = scaler.scale();
+	// Scaled value and inverse scaling
 	for (double i : scaled)
 	{
-		std::cout << i << ", ";
+		std::cout << i << " " << scaler.inverse_scale(i) << "\n";
 	}
 }
 ```
