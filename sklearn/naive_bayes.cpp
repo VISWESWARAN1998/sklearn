@@ -86,7 +86,17 @@ void naive_bayes::calculate_x_probabilities()
 			}
 		}
 
+		// Compute probabilities
+		for (unsigned long int row = 0; row < feature_probabilities.size(); row++)
+		{
+			__feature_row object = feature_probabilities[row];
+			double p = object.get_rows_matched() / double(y.size());
+			object.set_p(p);
+			feature_probabilities[row] = object;
+		}
+
 		X_probabilities[column] = feature_probabilities;
+
 		if (DEBUG)
 		{
 			for (__feature_row row : feature_probabilities)
@@ -110,7 +120,7 @@ void naive_bayes::display_x_probabilities()
 		std::vector<__feature_row> _row = itr->second;
 		for (__feature_row row : _row)
 		{
-			std::cout << "X:" << row.get_feature_value() << " y:" << row.get_y_value() << " matched:" << row.get_rows_matched() << " neg:" << row.get_neg_feature_count() << "\n";
+			std::cout << "X:" << row.get_feature_value() << " y:" << row.get_y_value() << " matched:" << row.get_rows_matched() << " neg:" << row.get_neg_feature_count() << " probability(p): " << row.get_p() << "\n";
 		}
 	}
 }
@@ -148,4 +158,14 @@ unsigned long int __feature_row::get_y_value()
 void __feature_row::increment_rows_matched()
 {
 	rows_matched = rows_matched + 1;
+}
+
+double __feature_row::get_p()
+{
+	return p;
+}
+
+void __feature_row::set_p(double _p)
+{
+	p = _p;
 }

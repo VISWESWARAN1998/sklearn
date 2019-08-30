@@ -18,6 +18,7 @@ private:
 	unsigned long int neg_feature_count;
 	unsigned long int y_value;
 	unsigned long int rows_matched;
+	double p;
 public:
 	__feature_row(double feature_value, unsigned long int neg_feature_count, unsigned long int y_value, unsigned long int rows_matched=0): feature_value(feature_value), neg_feature_count(neg_feature_count), y_value(y_value),rows_matched(rows_matched){}
 
@@ -26,6 +27,8 @@ public:
 	unsigned long int get_rows_matched();
 	unsigned long int get_y_value();
 	void increment_rows_matched();
+	double get_p();
+	void set_p(double _p);
 };
 
 class naive_bayes
