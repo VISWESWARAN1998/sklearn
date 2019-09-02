@@ -2,7 +2,7 @@
 
 #include "naive_bayes.h"
 
-void naive_bayes::print(std::string message)
+void gaussian_naive_bayes::print(std::string message)
 {
 	if (verbose == DEBUG)
 	{
@@ -10,7 +10,7 @@ void naive_bayes::print(std::string message)
 	}
 }
 
-void naive_bayes::calculate_y_probabilities()
+void gaussian_naive_bayes::calculate_y_probabilities()
 {
 	print("Calculating probabilities for the all the labels of y");
 	std::set<unsigned long int> unique_labels;
@@ -33,7 +33,7 @@ void naive_bayes::calculate_y_probabilities()
 	print("Calculated probabilities of labels");
 }
 
-void naive_bayes::calculate_x_probabilities()
+void gaussian_naive_bayes::calculate_x_probabilities()
 {
 	print("Calculating independent variable proabilities");
 	unsigned long int total_features = X[0].size();
@@ -45,127 +45,115 @@ void naive_bayes::calculate_x_probabilities()
 		print(stream.str());
 		// Our feature vector
 		std::vector<double> feature_vector;
-		// Our feature probabilities
-		std::vector<__feature_row> feature_probabilities;
 		for (std::vector<double> row : X)
 		{
 			feature_vector.push_back(row[column]);
 		}
-		// Get the unique labels
-		print("Getting unique labels");
-		std::set<double> unique_labels_col;
-		for (double feature : feature_vector)
-		{
-			unique_labels_col.insert(feature);
-		}
+		
+		print("Creating label map(s)");
+		std::map<unsigned long int, std::vector<double>> label_map;
 
-		print("Preparing feature rows");
-		for (double feature_value : unique_labels_col)
+		for (unsigned long int label=0; label<y.size(); label++)
 		{
-			unsigned long int neg_feature_count = feature_vector.size() - std::count(feature_vector.begin(), feature_vector.end(), feature_value);
-			for (unsigned long int label : labels)
+			if (label_map.find(y[label]) == label_map.end())
 			{
-				__feature_row row(feature_value, neg_feature_count, label, 0);
-				feature_probabilities.push_back(row);
+				std::vector<double> vec;
+				vec.push_back(feature_vector[label]);
+				label_map[y[label]] = vec;
+			}
+			else
+			{
+				std::vector<double> vec = label_map[y[label]];
+				vec.push_back(feature_vector[label]);
+				label_map[y[label]] = vec;
 			}
 		}
 
-		for (unsigned long int i=0; i<y.size(); i++)
+		print("Calculating mean and variance!");
+		std::map<unsigned long int, std::vector<double>>::iterator itr1 = label_map.begin();
+		std::map<unsigned long int, std::vector<double>>::iterator itr2 = label_map.end();
+		for (std::map<unsigned long int, std::vector<double>>::iterator itr = itr1; itr != itr2; ++itr)
 		{
-			double feature_value = feature_vector[i];
-			unsigned long int y_value = y[i];
-			// std::cout << "X=" << feature_value << " y=" << y_value << "\n";
-			for (unsigned long int row = 0; row< feature_probabilities.size(); row++)
+			std::vector<double> vec = itr->second;
+			double mean = 0.0;
+			for (double value : vec) { mean += value; }
+			mean = mean / double(vec.size());
+			std::vector<double> variance_vector;
+			for (double value : vec)
 			{
-				__feature_row object = feature_probabilities[row];
-				if ((object.get_feature_value() == feature_value) && (object.get_y_value() == y_value))
-				{
-					object.increment_rows_matched();
-					feature_probabilities[row] = object;
-				}
+				double Xi_mean = value - mean;
+				variance_vector.push_back(Xi_mean*Xi_mean);
 			}
-		}
-
-		// Compute probabilities
-		for (unsigned long int row = 0; row < feature_probabilities.size(); row++)
-		{
-			__feature_row object = feature_probabilities[row];
-			double p = object.get_rows_matched() / double(y.size());
-			object.set_p(p);
-			feature_probabilities[row] = object;
-		}
-
-		X_probabilities[column] = feature_probabilities;
-
-		if (DEBUG)
-		{
-			for (__feature_row row : feature_probabilities)
+			double variance = 0.0;
+			for (double value : variance_vector) { variance += value; }
+			variance = variance / double(variance_vector.size() - 1);
+			if (mean_variance_map.find(itr->first) == mean_variance_map.end())
 			{
-				std::cout << "X:" << row.get_feature_value() << " y:" << row.get_y_value() << " matched:" << row.get_rows_matched() << " neg:" << row.get_neg_feature_count() << "\n";
+				std::vector<mean_variance> vec;
+				mean_variance mv(column, mean, variance);
+				vec.push_back(mv);
+				mean_variance_map[itr->first] = vec;
+			}
+			else
+			{
+				std::vector<mean_variance> vec = mean_variance_map[itr->first];
+				mean_variance mv(column, mean, variance);
+				vec.push_back(mv);
+				mean_variance_map[itr->first] = vec;
 			}
 		}
 	}
-	print("Calculated probabilities!");
+	print("Computed! Model has been trained!");
 }
 
-void naive_bayes::display_x_probabilities()
-{
-	std::map<unsigned long int, std::vector<__feature_row>>::iterator itr1 = X_probabilities.begin();
-	std::map<unsigned long int, std::vector<__feature_row>>::iterator itr2 = X_probabilities.end();
-	for (std::map<unsigned long int, std::vector<__feature_row>>::iterator itr = itr1; itr != itr2; ++itr)
-	{
-		std::cout << "COLUMN: ";
-		std::cout << itr->first + 1;
-		std::cout << "\n~~~~~~~~~~~~~~~~~~~\n";
-		std::vector<__feature_row> _row = itr->second;
-		for (__feature_row row : _row)
-		{
-			std::cout << "X:" << row.get_feature_value() << " y:" << row.get_y_value() << " matched:" << row.get_rows_matched() << " neg:" << row.get_neg_feature_count() << " probability(p): " << row.get_p() << "\n";
-		}
-	}
-}
 
-void naive_bayes::fit()
+void gaussian_naive_bayes::fit()
 {
 	calculate_y_probabilities();
 	calculate_x_probabilities();
 	if (DEBUG)
 	{
-		display_x_probabilities();
+		std::map<unsigned long int, std::vector<mean_variance>>::iterator itr1 = mean_variance_map.begin();
+		std::map<unsigned long int, std::vector<mean_variance>>::iterator itr2 = mean_variance_map.end();
+		for (std::map<unsigned long int, std::vector<mean_variance>>::iterator itr = itr1; itr != itr2; ++itr)
+		{
+			std::cout << "LABEL: " << itr->first << "\n-------------------------------\n";
+			std::vector<mean_variance> mv = itr->second;
+			for (mean_variance i : mv)
+			{
+				std::cout << "COLUMN: " << i.get_column() << " MEAN: " << i.get_mean() << " VARIANCE: " << i.get_variance() << "\n";
+			}
+		}
 	}
 }
 
-double __feature_row::get_feature_value()
+std::map<unsigned long int, double> gaussian_naive_bayes::predict(std::vector<double> X_test)
 {
-	return feature_value;
-}
-
-unsigned long int __feature_row::get_neg_feature_count()
-{
-	return neg_feature_count;
-}
-
-unsigned long int __feature_row::get_rows_matched()
-{
-	return rows_matched;
-}
-
-unsigned long int __feature_row::get_y_value()
-{
-	return y_value;
-}
-
-void __feature_row::increment_rows_matched()
-{
-	rows_matched = rows_matched + 1;
-}
-
-double __feature_row::get_p()
-{
-	return p;
-}
-
-void __feature_row::set_p(double _p)
-{
-	p = _p;
+	std::map<unsigned long int, double> probability;
+	std::map<unsigned long int, std::vector<mean_variance>>::iterator itr1 = mean_variance_map.begin();
+	std::map<unsigned long int, std::vector<mean_variance>>::iterator itr2 = mean_variance_map.end();
+	for (std::map<unsigned long int, std::vector<mean_variance>>::iterator itr = itr1; itr != itr2; ++itr)
+	{
+		std::vector<mean_variance> mv_vec = itr->second;
+		std::vector<double> posterior_numerator;
+		for (unsigned long int column = 0; column < X_test.size(); column++)
+		{
+			mean_variance mv = mv_vec[column];
+			double column_value = X_test[column];
+			// Calculate Gaussian Normal distribution
+			double mean = mv.get_mean();
+			double mean_square_by_two_sigma = std::pow((column_value - mean), 2) / (2 * mv.get_variance());
+			double exp_neg_mean_square_by_sigma = std::exp(-1 * mean_square_by_two_sigma);
+			double gnb = (1 / (sqrt(2 * PI * mv.get_variance()))) * exp_neg_mean_square_by_sigma;
+			std::cout << "COLUMN VALUE: " << column_value << " MEAN: " << mean << "  VARIANCE: " << mv.get_variance() << " GNB: " << gnb << "\n";
+			posterior_numerator.push_back(gnb);
+		}
+		double p = 1;
+		for (double numerator : posterior_numerator)
+		{
+			p = p * numerator;
+		}
+		probability[itr->first] = p;
+	}
+	return probability;
 }
