@@ -157,3 +157,31 @@ std::map<unsigned long int, double> gaussian_naive_bayes::predict(std::vector<do
 	}
 	return probability;
 }
+
+void gaussian_naive_bayes::save_model(std::string model_name)
+{
+	json j;
+	j["labels"] = labels;
+	std::map<unsigned long int, std::vector<mean_variance>>::iterator itr1 = mean_variance_map.begin();
+	std::map<unsigned long int, std::vector<mean_variance>>::iterator itr2 = mean_variance_map.end();
+	for (std::map<unsigned long int, std::vector<mean_variance>>::iterator itr = itr1; itr != itr2; ++itr)
+	{
+		std::string label_name = std::to_string(itr->first);
+		j["mean_variance"][label_name] = json::array();
+	}
+	for (std::map<unsigned long int, std::vector<mean_variance>>::iterator itr = itr1; itr != itr2; ++itr)
+	{
+		std::string label_name = std::to_string(itr->first);
+		std::vector<mean_variance> mv_vec = itr->second;
+		for (mean_variance mv : mv_vec)
+		{
+			j["mean_variance"][label_name].push_back({ 
+				{"column", mv.get_column()},
+				{"mean", mv.get_mean()},
+				{"variance", mv.get_variance()}
+				});
+		}
+	}
+	std::ofstream o(model_name);
+	o << std::setw(4) << j << std::endl;
+}

@@ -5,11 +5,16 @@
 #define NODEBUG 0
 #define PI 3.141592653589793238462643383279502884L
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <sstream>
+#include <fstream>
 #include <vector>
 #include <set>
 #include <map>
+#include "json.h"
+
+using json = nlohmann::json;
 
 /*
 A class to store mean and variance
@@ -77,5 +82,7 @@ public:
 	void fit();
 
 	std::map<unsigned long int, double> predict(std::vector<double> X_test);
+
+	void save_model(std::string model_name);
 };
 
