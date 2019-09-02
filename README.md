@@ -64,3 +64,47 @@ int main()
 	}
 }
 ```
+
+
+#### Classification - Gaussian Naive Bayes
+
+Classification male - female using height, weight, foot size and saving the model.
+
+**HEADERS / SOURCE NEEDED:** naive_bayes.h, naive_bayes.cpp, json.h
+
+```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include "naive_bayes.h"
+
+int main()
+{
+	gaussian_naive_bayes nb({ {6, 180, 12}, {5.92, 190, 11}, {5.58, 170, 12}, {5.92, 165, 10}, {5, 100, 6}, {5.5, 150, 8}, {5.42, 130, 7}, {5.75, 150, 9} }, { 0, 0, 0, 0, 1, 1, 1, 1 }, DEBUG);
+	nb.fit();
+	nb.save_model("model.json");
+	std::map<unsigned long int, double> probabilities = nb.predict({ 6, 130, 8 });
+	double male = probabilities[0];
+	double female = probabilities[1];
+	if (male > female) std::cout << "MALE";
+	else std::cout << "FEMALE";
+}
+```
+
+Loading a saved model,
+
+```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include "naive_bayes.h"
+
+int main()
+{
+	gaussian_naive_bayes nb(NODEBUG);
+	nb.load_model("model.json");
+	std::map<unsigned long int, double> probabilities = nb.predict({ 6, 130, 8 });
+	double male = probabilities[0];
+	double female = probabilities[1];
+	if (male > female) std::cout << "MALE";
+	else std::cout << "FEMALE";
+}
+```
