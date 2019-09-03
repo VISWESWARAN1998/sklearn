@@ -14,7 +14,9 @@ Trying to implement Scikit Learn for Python in C++
 
 #### STANDARDIZATION
 
-**HEADERS NEEDED:** preprocessing.h, proecessing.cpp and statx.h
+**SOURCE NEEDED:** preprocessing.h, proecessing.cpp and statx.h <br/>
+
+StandardScaler will standardize features by removing the mean and scaling to unit variance. _ref:_ [Scikit Learn docs](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html)
 
 ```c++
 // SWAMI KARUPPASWAMI THUNNAI
@@ -40,11 +42,11 @@ int main()
 
 Label encoding is the process of encoding the categorical data into numerical data. For example if a column in the dataset contains country values like GERMANY, FRANCE, ITALY then label encoder will convert this categorical data into numerical data like this
 
-country(categorical)|country(numerical)
---------
-GERMANY|1
-FRANCE|0
-ITALY|2
+country - categorical |country - numerical
+--------------------------------------
+GERMANY | 1
+FRANCE | 0
+ITALY | 2
 
 _Example code:_
 
