@@ -1,11 +1,48 @@
 # sklearn
 Trying to implement Scikit Learn for Python in C++
 
+#### STANDARDIZATION
+
+**HEADERS NEEDED:** preprocessing.h, proecessing.cpp and statx.h
+
+```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include <iostream>
+#include "preprocessing.h"
+
+int main()
+{
+	StandardScaler scaler({0, 0, 1, 1});
+	std::vector<double> scaled = scaler.scale();
+	// Scaled value and inverse scaling
+	for (double i : scaled)
+	{
+		std::cout << i << " " << scaler.inverse_scale(i) << "\n";
+	}
+}
+```
+
 #### Least Squares Regression
 
 **HEADERS NEEDED:** lsr.h and lsr.cpp
 
-Creating new model and saving it
+_Creating new model and saving it:_<br/>
+
+**DATASET:**
+
+X|y
+----
+2|4
+----
+3|5
+----
+5|7
+----
+7|10
+----
+9|15
+----
 
 ```c++
 // SWAMI KARUPPASWAMI THUNNAI
@@ -43,29 +80,6 @@ int main()
 ![](static/slr.png)
 
 
-#### STANDARDIZATION
-
-**HEADERS NEEDED:** preprocessing.h, proecessing.cpp and statx.h
-
-```c++
-// SWAMI KARUPPASWAMI THUNNAI
-
-#include <iostream>
-#include "preprocessing.h"
-
-int main()
-{
-	StandardScaler scaler({0, 0, 1, 1});
-	std::vector<double> scaled = scaler.scale();
-	// Scaled value and inverse scaling
-	for (double i : scaled)
-	{
-		std::cout << i << " " << scaler.inverse_scale(i) << "\n";
-	}
-}
-```
-
-
 #### Classification - Gaussian Naive Bayes
 
 Classification male - female using height, weight, foot size and saving the model.
@@ -90,7 +104,7 @@ int main()
 }
 ```
 
-Loading a saved model,
+_Loading a saved model:_
 
 ```c++
 // SWAMI KARUPPASWAMI THUNNAI
