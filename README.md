@@ -34,15 +34,10 @@ _Creating new model and saving it:_<br/>
 X|y
 ----
 2|4
-----
 3|5
-----
 5|7
-----
 7|10
-----
 9|15
-----
 
 ```c++
 // SWAMI KARUPPASWAMI THUNNAI
