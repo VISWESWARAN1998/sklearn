@@ -32,7 +32,7 @@ _Creating new model and saving it:_<br/>
 **DATASET:**
 
 X|y
-----
+-|--
 2|4
 3|5
 5|7
