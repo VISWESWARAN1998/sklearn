@@ -40,7 +40,7 @@ int main()
 
 Label encoding is the process of encoding the categorical data into numerical data. For example if a column in the dataset contains country values like GERMANY, FRANCE, ITALY then label encoder will convert this categorical data into numerical data like this
 
-country
+country(categorical)|country(numerical)
 --------
 GERMANY|1
 FRANCE|0
