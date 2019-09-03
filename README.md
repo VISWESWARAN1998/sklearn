@@ -33,7 +33,46 @@ int main()
 }
 ```
 
-#### Least Squares Regression
+#### LABEL ENCODING:
+
+**SOURCE NEEDED:** preprocessing.h and preprocessing.cpp
+
+Label encoding is the process of encoding the categorical data into numerical data. For example if a column in the dataset say, country contains data like this
+
+country
+--------
+GERMANY
+FRANCE
+ITALY
+
+the above column contains categorical data which needed to be encoded into numerical data (since we cannot perform math on categorical data). Label encoder will convert this categorical data into numerical data like this,
+
+country
+-------
+1
+0
+2
+
+```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include <iostream>
+#include <string>
+#include "preprocessing.h"
+
+int main()
+{
+	std::vector<std::string> categorical_data = { "GERMANY", "FRANCE", "ITALY" };
+	LabelEncoder<std::string> encoder(categorical_data);
+	std::vector<unsigned long int> numerical_data = encoder.fit_transorm();
+	for (int i = 0; i < categorical_data.size(); i++)
+	{
+		std::cout << categorical_data[i] << " - " << numerical_data[i] << "\n";
+	}
+}
+```
+
+#### LEAST SQUARES REGRESSION(SIMPLE LINEAR REGRESSION)
 
 **HEADERS NEEDED:** lsr.h and lsr.cpp
 
@@ -81,7 +120,7 @@ int main()
 
 ```
 
-**OUTPUT:**
+**SAMPLE PREDICTION PLOTTED:**
 ![](static/slr.png)
 
 
