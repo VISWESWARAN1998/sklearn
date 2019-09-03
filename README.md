@@ -1,6 +1,16 @@
 # sklearn
 Trying to implement Scikit Learn for Python in C++
 
+#### PREPROCESSING:
+1. [Standardization](https://github.com/VISWESWARAN1998/sklearn#standardization)
+
+#### REGRESSION:
+1. [Least Squares Regression](https://github.com/VISWESWARAN1998/sklearn#least-squares-regression)
+
+#### CLASSIFIFCATION:
+1. [Gaussian Naive Bayes](https://github.com/VISWESWARAN1998/sklearn#classification---gaussian-naive-bayes)
+
+
 #### STANDARDIZATION
 
 **HEADERS NEEDED:** preprocessing.h, proecessing.cpp and statx.h
