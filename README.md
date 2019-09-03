@@ -6,7 +6,7 @@ Trying to implement Scikit Learn for Python in C++
 2. [Label Encoding](https://github.com/VISWESWARAN1998/sklearn#label-encoding)
 
 #### REGRESSION:
-1. [Least Squares Regression](https://github.com/VISWESWARAN1998/sklearn#least-squares-regression)
+1. [Least Squares Regression](https://github.com/VISWESWARAN1998/sklearn#least-squares-regressionsimple-linear-regression)
 
 #### CLASSIFIFCATION:
 1. [Gaussian Naive Bayes](https://github.com/VISWESWARAN1998/sklearn#classification---gaussian-naive-bayes)
