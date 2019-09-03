@@ -3,6 +3,7 @@ Trying to implement Scikit Learn for Python in C++
 
 #### PREPROCESSING:
 1. [Standardization](https://github.com/VISWESWARAN1998/sklearn#standardization)
+2. [Label Encoding](https://github.com/VISWESWARAN1998/sklearn#label-encoding)
 
 #### REGRESSION:
 1. [Least Squares Regression](https://github.com/VISWESWARAN1998/sklearn#least-squares-regression)
@@ -37,21 +38,15 @@ int main()
 
 **SOURCE NEEDED:** preprocessing.h and preprocessing.cpp
 
-Label encoding is the process of encoding the categorical data into numerical data. For example if a column in the dataset say, country contains data like this
+Label encoding is the process of encoding the categorical data into numerical data. For example if a column in the dataset contains country values like GERMANY, FRANCE, ITALY then label encoder will convert this categorical data into numerical data like this
 
 country
 --------
-GERMANY
-FRANCE
-ITALY
+GERMANY|1
+FRANCE|0
+ITALY|2
 
-the above column contains categorical data which needed to be encoded into numerical data (since we cannot perform math on categorical data). Label encoder will convert this categorical data into numerical data like this,
-
-country
--------
-1 |
-0 |
-2 |
+_Example code:_
 
 ```c++
 // SWAMI KARUPPASWAMI THUNNAI
