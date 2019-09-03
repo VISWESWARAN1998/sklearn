@@ -49,9 +49,9 @@ the above column contains categorical data which needed to be encoded into numer
 
 country
 -------
-1
-0
-2
+1 |
+0 |
+2 |
 
 ```c++
 // SWAMI KARUPPASWAMI THUNNAI
