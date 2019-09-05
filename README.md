@@ -36,6 +36,20 @@ int main()
 }
 ```
 
+#### NORMALIZATION:
+```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include <iostream>
+#include "preprocessing.h"
+
+int main()
+{
+	std::vector<double> normalized_vec = preprocessing::normalize({ 800, 10, 12, 78, 56, 49, 7, 1200, 1500 });
+	for (double i : normalized_vec) std::cout << i << " ";
+}
+```
+
 #### LABEL ENCODING:
 
 **SOURCE NEEDED:** preprocessing.h and preprocessing.cpp
