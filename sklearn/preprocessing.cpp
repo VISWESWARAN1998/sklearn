@@ -74,3 +74,32 @@ std::vector<double> preprocessing::normalize(std::vector<double> array)
 	}
 	return normalized_array;
 }
+
+template<typename T>
+inline void LabelBinarizer<T>::fit()
+{
+	// prepare the headers
+	for (T value : data)
+	{
+		headers.insert(value);
+	}
+
+	for (T value : data)
+	{
+		std::vector<unsigned long int> feature_vector;
+		for (T header : headers)
+		{
+			if (header == value) feature_vector.push_back(1);
+			else feature_vector.push_back(0);
+		}
+		encoded_vector.push_back(feature_vector);
+	}
+}
+template<typename T>
+std::vector<std::vector<unsigned long int>> LabelBinarizer<T>::fit_transorm()
+{
+	fit();
+	return encoded_vector;
+}
+template class LabelBinarizer<std::string>;
+template class LabelBinarizer<std::wstring>;

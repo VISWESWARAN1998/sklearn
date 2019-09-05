@@ -58,3 +58,21 @@ namespace preprocessing
 {
 	std::vector<double> normalize(std::vector<double> array);
 }
+
+
+template <typename T>
+class LabelBinarizer
+{
+private:
+	std::set<T> headers;
+	std::vector<T> data;
+
+	std::vector<std::vector<unsigned long int>> encoded_vector;
+
+	void fit();
+
+public:
+	LabelBinarizer(std::vector<T> data): data(data){}
+
+	std::vector<std::vector<unsigned long int>> fit_transorm();
+};
