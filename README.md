@@ -3,7 +3,9 @@ Trying to implement Scikit Learn for Python in C++
 
 #### PREPROCESSING:
 1. [Standardization](https://github.com/VISWESWARAN1998/sklearn#standardization)
-2. [Label Encoding](https://github.com/VISWESWARAN1998/sklearn#label-encoding)
+2. [Normalization](https://github.com/VISWESWARAN1998/sklearn#normalization)
+3. [Label Encoding](https://github.com/VISWESWARAN1998/sklearn#label-encoding)
+
 
 #### REGRESSION:
 1. [Least Squares Regression](https://github.com/VISWESWARAN1998/sklearn#least-squares-regressionsimple-linear-regression)
@@ -37,6 +39,9 @@ int main()
 ```
 
 #### NORMALIZATION:
+
+**SOURCE NEEDED:** preprocessing.h, proecessing.cpp and statx.h
+
 ```c++
 // SWAMI KARUPPASWAMI THUNNAI
 
