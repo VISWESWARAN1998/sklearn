@@ -73,9 +73,15 @@ public:
 		return mat_mul;
 	}
 
-	std::vector<std::vector<T>> inverse(std::vector<std::vector<T>> mat)
+	void scalar_multiply(T scalar_value, std::vector<std::vector<T>> &mat)
 	{
-		return mat;
+		for (unsigned long int row = 0; row < mat.size(); row++)
+		{
+			for(unsigned long int column = 0; column < mat[row].size(); column++)
+			{
+				mat[row][column] = mat[row][column] * scalar_value;
+			}
+		}
 	}
 };
 

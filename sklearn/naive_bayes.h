@@ -17,7 +17,7 @@
 using json = nlohmann::json;
 
 /*
-A class to store mean and variance
+A class to store mean and variance. A datastructure to ease the math in gaussian_naive_bayes class.
 */
 class mean_variance
 {
@@ -45,6 +45,10 @@ public:
 	}
 };
 
+/*
+Similar class of scikit-learn's GaussianNB
+Written By: Visweswaran N on 2019-09-02
+*/
 class gaussian_naive_bayes
 {
 
@@ -77,12 +81,33 @@ private:
 	void calculate_x_probabilities();
 
 public:
+	/*
+	Constructor to be used only when loading the existing model
+	*/
+	gaussian_naive_bayes(unsigned short verbose): verbose(verbose) {}
+	/*
+	Constructor to be used when creating a new model
+	*/
 	gaussian_naive_bayes(std::vector<std::vector<double>> X, std::vector<unsigned long int> y, unsigned short verbose): X(X), y(y), verbose(verbose){}
 
+	/*
+	For fitting the model
+	*/
 	void fit();
 
+	/*
+	For predicting output
+	*/
 	std::map<unsigned long int, double> predict(std::vector<double> X_test);
 
+	/*
+	Used to save the model
+	*/
 	void save_model(std::string model_name);
+
+	/*
+	Used to load the saved model
+	*/
+	void load_model(std::string model_name);
 };
 

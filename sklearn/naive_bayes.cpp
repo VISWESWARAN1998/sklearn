@@ -145,7 +145,7 @@ std::map<unsigned long int, double> gaussian_naive_bayes::predict(std::vector<do
 			double mean_square_by_two_sigma = std::pow((column_value - mean), 2) / (2 * mv.get_variance());
 			double exp_neg_mean_square_by_sigma = std::exp(-1 * mean_square_by_two_sigma);
 			double gnb = (1 / (sqrt(2 * PI * mv.get_variance()))) * exp_neg_mean_square_by_sigma;
-			std::cout << "COLUMN VALUE: " << column_value << " MEAN: " << mean << "  VARIANCE: " << mv.get_variance() << " GNB: " << gnb << "\n";
+			// std::cout << "COLUMN VALUE: " << column_value << " MEAN: " << mean << "  VARIANCE: " << mv.get_variance() << " GNB: " << gnb << "\n";
 			posterior_numerator.push_back(gnb);
 		}
 		double p = 1;
@@ -182,6 +182,30 @@ void gaussian_naive_bayes::save_model(std::string model_name)
 				});
 		}
 	}
-	std::ofstream o(model_name);
-	o << std::setw(4) << j << std::endl;
+	std::ofstream file(model_name);
+	file << std::setw(4) << j << std::endl;
+	file.close();
+}
+
+void gaussian_naive_bayes::load_model(std::string model_name)
+{
+	std::ifstream file;
+	file.open(model_name);
+	if (!file.is_open()) throw "Model cannot be loaded because it cannot be opened!";
+	json j;
+	file >> j;
+	file.close();
+	std::vector<unsigned long int> label_vector = j["labels"];
+	for (unsigned long int label : label_vector)
+	{
+		std::vector<mean_variance> mv_vector;
+		std::string label_name = std::to_string(label);
+		for (json::iterator itr = j["mean_variance"][label_name].begin(); itr != j["mean_variance"][label_name].end(); ++itr)
+		{
+			json array =  *itr;
+			mean_variance mv(array["column"], array["mean"], array["variance"]);
+			mv_vector.push_back(mv);
+		}
+		mean_variance_map[label] = mv_vector;
+	}
 }
