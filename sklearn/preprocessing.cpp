@@ -76,7 +76,7 @@ std::vector<double> preprocessing::normalize(std::vector<double> array)
 }
 
 template<typename T>
-inline void LabelBinarizer<T>::fit()
+std::vector<std::vector<unsigned long int>> LabelBinarizer<T>::fit()
 {
 	// prepare the headers
 	for (T value : data)
@@ -94,12 +94,18 @@ inline void LabelBinarizer<T>::fit()
 		}
 		encoded_vector.push_back(feature_vector);
 	}
+	return encoded_vector;
 }
 template<typename T>
-std::vector<std::vector<unsigned long int>> LabelBinarizer<T>::fit_transorm()
+std::vector<unsigned long int> LabelBinarizer<T>::predict(T value)
 {
-	fit();
-	return encoded_vector;
+	std::vector<unsigned long int> prediction;
+	for (T header : headers)
+	{
+		if (header == value) prediction.push_back(1);
+		else prediction.push_back(0);
+	}
+	return prediction;
 }
 template class LabelBinarizer<std::string>;
 template class LabelBinarizer<std::wstring>;

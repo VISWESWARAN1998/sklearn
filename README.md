@@ -88,6 +88,34 @@ int main()
 }
 ```
 
+#### Label Binarization:
+
+```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include <iostream>
+#include <string>
+#include "preprocessing.h"
+
+int main()
+{
+    std::vector<std::string> ip_addresses = { "A", "B", "A", "B", "C" };
+    LabelBinarizer<std::string> binarize(ip_addresses);
+    std::vector<std::vector<unsigned long int>> result = binarize.fit();
+    for (std::vector<unsigned long int> i : result)
+    {
+        for (unsigned long int j : i) std::cout << j << " ";
+        std::cout << "\n";
+    }
+    // Predict
+    std::cout << "Prediction:\n-------------\n";
+    std::string test = "D";
+    std::vector<unsigned long int> prediction = binarize.predict(test);
+    for (unsigned long int i : prediction) std::cout << i << " ";
+}
+```
+
+
 #### LEAST SQUARES REGRESSION(SIMPLE LINEAR REGRESSION)
 
 **HEADERS NEEDED:** lsr.h and lsr.cpp

@@ -18,7 +18,7 @@ private:
 	// X'
 	std::vector<std::vector<double>> X_transpose;
 
-	// X*X'
+	// X'X
 	std::vector<std::vector<double>> X_transpose_X;
 
 	std::vector<double> y;

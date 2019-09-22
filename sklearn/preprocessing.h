@@ -69,10 +69,8 @@ private:
 
 	std::vector<std::vector<unsigned long int>> encoded_vector;
 
-	void fit();
-
 public:
 	LabelBinarizer(std::vector<T> data): data(data){}
-
-	std::vector<std::vector<unsigned long int>> fit_transorm();
+	std::vector<std::vector<unsigned long int>> fit();
+	std::vector<unsigned long int> predict(T value);
 };
