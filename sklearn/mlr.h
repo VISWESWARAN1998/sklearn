@@ -15,13 +15,9 @@ private:
 	// Independent variable X
 	std::vector<std::vector<double>> X;
 
-	// X'
-	std::vector<std::vector<double>> X_transpose;
-
-	// X'X
-	std::vector<std::vector<double>> X_transpose_X;
-
 	std::vector<double> y;
+
+	std::vector<double> bias;
 
 	unsigned short int verbose;
 private:
@@ -30,4 +26,5 @@ private:
 public:
 	LinearRegression(std::vector<std::vector<double>> X, std::vector<double> y, unsigned short int verbose) : X(X), y(y), verbose(verbose) {}
 	void fit();
+	double predict(std::vector<double> test);
 };
