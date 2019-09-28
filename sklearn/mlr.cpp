@@ -1,12 +1,28 @@
 // SWAMI KARUPPASWAMI THUNNAI
 
+#include <iomanip>
 #include "mlr.h"
 #include "matrix.h"
+#include "json.h"
+
+using json = nlohmann::json;
 
 
 void LinearRegression::print(std::string message)
 {
 	if (verbose) std::cout << message << "\n";
+}
+
+LinearRegression::LinearRegression(std::string model_name)
+{
+	std::ifstream file;
+	file.open(model_name);
+	if (!file.is_open()) throw "Model cannot be loaded because it cannot be opened!";
+	json j;
+	file >> j;
+	file.close();
+	std::vector<double> b = j["bias"];
+	bias = b;
 }
 
 void LinearRegression::fit()
@@ -28,7 +44,9 @@ void LinearRegression::fit()
 
 	// X'X
 	std::vector<std::vector<double>> X_transpose_X;
+
 	matrix<double> mat;
+
 	print("Finding the transpose");
 	X_transpose = mat.transpose(X);
 	print("Finding X'X");
@@ -68,4 +86,21 @@ double LinearRegression::predict(std::vector<double> test)
 		prediction += value;
 	}
 	return prediction;
+}
+
+void LinearRegression::save_model(std::string model_name)
+{
+	json j;
+	j["bias"] = bias;
+	std::ofstream file;
+	file.open(model_name);
+	if (file.is_open())
+	{
+		file << std::setw(4) << j << std::endl;
+		file.close();
+	}
+	else
+	{
+		throw "File cannot be opened for saving the model. May be the file is opened in some other place or you might not have proper permissions.";
+	}
 }

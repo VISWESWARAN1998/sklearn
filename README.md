@@ -168,6 +168,42 @@ int main()
 ![](static/slr.png)
 
 
+#### Multiple Linear Regression:
+
+Training and saving the model
+
+```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include <iostream>
+#include "mlr.h"
+
+int main()
+{
+	LinearRegression mlr({ {110, 40}, {120, 30}, {100, 20}, {90, 0}, {80, 10} }, {100, 90, 80, 70, 60}, NODEBUG);
+	mlr.fit();
+	std::cout << mlr.predict({ 110, 40 });
+	mlr.save_model("model.json");
+}
+```
+
+Loading the saved model
+
+```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include <iostream>
+#include "mlr.h"
+
+int main()
+{
+	// Don't use fit method here
+	LinearRegression mlr("model.json");
+	std::cout << mlr.predict({ 110, 40 });
+}
+```
+
+
 #### Classification - Gaussian Naive Bayes
 
 Classification male - female using height, weight, foot size and saving the model.

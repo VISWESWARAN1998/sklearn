@@ -52,10 +52,10 @@ public:
 		unsigned long int c2 = mat2[0].size();
 		// Initialize with empty matrix
 		//std::cout << "C1 " << c1 << " r2 " << r2 << "\n";
-		for (unsigned long int i = 0; i < c1; i++)
+		for (unsigned long int i = 0; i < mat1.size(); i++)
 		{
 			std::vector<T> row;
-			for (unsigned long int j = 0; j < r2; j++)
+			for (unsigned long int j = 0; j < mat2[0].size(); j++)
 			{
 				row.push_back(0);
 			}
@@ -71,18 +71,7 @@ public:
 				}
 			}
 		}
-		// Reshape the matrix
-		std::vector<std::vector<T>> mat_reshaped;
-		for (unsigned long int i = 0; i < mat1.size(); i++)
-		{
-			std::vector<T> row;
-			for (unsigned long int j = 0; j < mat2[0].size(); j++)
-			{
-				row.push_back(mat_mul[i][j]);
-			}
-			mat_reshaped.push_back(row);
-		}
-		return mat_reshaped;
+		return mat_mul;
 	}
 
 	void scalar_multiply(T scalar_value, std::vector<std::vector<T>> &mat)
