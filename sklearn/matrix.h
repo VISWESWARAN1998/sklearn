@@ -156,7 +156,7 @@ public:
 		//std::vector<std::vector<T>> inverse;
 		int matrixSize = matrix.size();
 		// Find determinant of matrix[][] 
-		int det = determinantOfMatrix(matrix, matrixSize);
+		double det = determinantOfMatrix(matrix, matrixSize);
 		if (det == 0)
 		{
 			return false;
@@ -181,7 +181,7 @@ public:
 		// Find Inverse using formula "inverse(matrix) = adj(matrix)/det(matrix)" 
 		for (int i = 0; i<matrixSize; i++)
 			for (int j = 0; j<matrixSize; j++)
-				inverse[i][j] = adj[i][j] / double(det);
+				inverse[i][j] = adj[i][j] / det;
 
 		return true;
 
@@ -190,6 +190,53 @@ public:
 	double determinantOfMatrix(std::vector<std::vector<T>> matrix, unsigned long int n)
 	{
 		double D = 0.0; 
+		if (n == 1)
+		{
+			D = matrix[0][0];
+			return D;
+		}
+
+		// Make L and U
+		std::vector<std::vector<T>> L = matrix;
+		std::vector<std::vector<T>> U = matrix;
+
+		int i = 0, j = 0, k = 0;
+		for (i = 0; i < n; i++) {
+			for (j = 0; j < n; j++) {
+				if (j < i)
+					L[j][i] = 0;
+				else {
+					L[j][i] = matrix[j][i];
+					for (k = 0; k < i; k++) {
+						L[j][i] = L[j][i] - L[j][k] * U[k][i];
+					}
+				}
+			}
+			for (j = 0; j < n; j++) {
+				if (j < i)
+					U[i][j] = 0;
+				else if (j == i)
+					U[i][j] = 1;
+				else {
+					U[i][j] = matrix[i][j] / L[i][i];
+					for (k = 0; k < i; k++) {
+						U[i][j] = U[i][j] - ((L[i][k] * U[k][j]) / L[i][i]);
+					}
+				}
+			}
+		}
+		
+		D = 1.0;
+		for (i = 0; i < n; i++) {
+			D = D * U[i][i] * L[i][i];
+		}
+		
+		return D;
+	}
+
+	double slowDeterminantOfMatrix(std::vector<std::vector<T>> matrix, unsigned long int n)
+	{
+		double D = 0.0;
 		if (n == 1)
 		{
 			D = matrix[0][0];
@@ -217,7 +264,7 @@ public:
 		{
 			getCofactor(matrix, temp, 0, f, n);
 
-			D += sign * matrix[0][f] * determinantOfMatrix(temp, n - 1);
+			D += sign * matrix[0][f] * slowDeterminantOfMatrix(temp, n - 1);
 			sign = -sign;
 		}
 		return D;
