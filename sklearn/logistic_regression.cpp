@@ -16,6 +16,23 @@ void logistic_regression::get_unique_labels()
 	if (verbose) std::cout << "Class count: " << unique_lables.size() << "\n";
 }
 
+logistic_regression::logistic_regression(std::string model_name)
+{
+	std::ifstream file;
+	file.open(model_name);
+	if (!file.is_open()) throw "Model cannot be loaded because it cannot be opened!";
+	json j;
+	file >> j;
+	file.close();
+	std::set<unsigned long int> labels = j["labels"];
+	unique_lables = labels;
+	for (unsigned long int label : unique_lables)
+	{
+		std::vector<double> bias = j[std::to_string(label)];
+		bias_map[label] = bias;
+	}
+}
+
 void logistic_regression::fit()
 {
 	get_unique_labels();
@@ -27,11 +44,15 @@ void logistic_regression::fit()
 		{
 			if (i == label) new_y.push_back(1);
 			else new_y.push_back(0);
-			LinearRegression mlr(X, new_y, verbose);
-			mlr.fit();
-			std::vector<double> bias = mlr.get_bias();
-			bias_map[label] = bias;
 		}
+		if (verbose)
+		{
+			std::cout << "Training for: " << label << "\n";
+		}
+		LinearRegression mlr(X, new_y, verbose);
+		mlr.fit();
+		std::vector<double> bias = mlr.get_bias();
+		bias_map[label] = bias;
 	}
 	if (verbose)
 	{
@@ -63,6 +84,7 @@ void logistic_regression::save_model(std::string model_name)
 	json j;
 	std::map<unsigned long int, std::vector<double>>::iterator itr1 = bias_map.begin();
 	std::map<unsigned long int, std::vector<double>>::iterator itr2 = bias_map.end();
+	j["labels"] = unique_lables;
 	for (std::map<unsigned long int, std::vector<double>>::iterator itr = itr1; itr != itr2; ++itr)
 	{
 		unsigned long int label = itr->first;

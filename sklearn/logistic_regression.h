@@ -22,6 +22,7 @@ private:
 	void get_unique_labels();
 public:
 	logistic_regression(std::vector<std::vector<double>> X, std::vector<unsigned long int> y, unsigned short int verbose): X(X), y(y), verbose(verbose) {}
+	logistic_regression(std::string model_name);
 	void fit();
 	std::map<unsigned long int, double> predict(std::vector<double> test);
 	void save_model(std::string model_name);

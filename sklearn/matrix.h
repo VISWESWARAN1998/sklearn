@@ -150,7 +150,7 @@ public:
 
 	}
 
-	bool inverse(std::vector<std::vector<T>> matrix, std::vector<std::vector<T>> &inverse)
+	bool slowInverse(std::vector<std::vector<T>> matrix, std::vector<std::vector<T>> &inverse)
 	{
 
 		//std::vector<std::vector<T>> inverse;
@@ -183,6 +183,81 @@ public:
 			for (int j = 0; j<matrixSize; j++)
 				inverse[i][j] = adj[i][j] / det;
 
+		return true;
+
+	}
+
+	bool inverse(std::vector<std::vector<T>> matrix, std::vector<std::vector<T>> &inverse)
+	{		
+		int matrixSize = matrix.size();
+		// Find determinant of matrix[][] 
+		double det = determinantOfMatrix(matrix, matrixSize);
+		if (det == 0)
+		{
+			return false;
+		}
+
+		std::vector<std::vector<T>> augmented;
+		for (int i = 0; i < matrixSize; i++)
+		{
+			std::vector<T> row;
+			for (int j = 0; j < 2 * matrixSize; j++)
+				row.push_back(T());
+			augmented.push_back(row);
+		}
+		for (int i = 0; i < matrixSize; i++)
+		{
+			for (int j = 0; j < matrix[i].size(); j++)
+				augmented[i][j] = matrix[i][j];
+
+			augmented[i][i + matrixSize] = T(1);
+		}
+		
+		for (int i = matrixSize - 1; i > 0; i--) 
+		{
+			if (augmented[i - 1][0] < augmented[i][0])
+			{
+				for (int j = 0; j < 2 * matrixSize; j++)
+				{
+					T temp = augmented[i][j];
+					augmented[i][j] = augmented[i - 1][j];
+					augmented[i - 1][j] = temp;
+				}
+			}
+		}
+
+		for (int i = 0; i < matrixSize; i++)
+		{
+			for (int j = 0; j < matrixSize; j++)
+			{
+				if (j != i) 
+				{
+					T temp = augmented[j][i] / augmented[i][i];
+					for (int k = 0; k < 2 * matrixSize; k++) 
+					{
+						augmented[j][k] -= augmented[i][k] * temp;
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < matrixSize; i++)
+		{
+			T temp = augmented[i][i];
+			for (int j = 0; j < 2 * matrixSize; j++) 
+			{
+				augmented[i][j] = augmented[i][j] / temp;
+			}
+		}
+
+		for (int i = 0; i < matrixSize; i++)
+		{
+			for (int j = 0; j < matrixSize; j++)
+			{
+				inverse[i][j] = augmented[i][matrixSize + j];
+			}
+		}
+	
 		return true;
 
 	}
