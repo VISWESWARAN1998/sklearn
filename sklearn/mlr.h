@@ -30,4 +30,6 @@ public:
 	void fit();
 	double predict(std::vector<double> test);
 	void save_model(std::string model_name);
+
+	std::vector<double> get_bias();
 };

@@ -1,6 +1,7 @@
 // SWAMI KARUPPASWAMI THUNNAI
 
 #include <iomanip>
+#include <sstream>
 #include "mlr.h"
 #include "matrix.h"
 #include "json.h"
@@ -57,6 +58,13 @@ void LinearRegression::fit()
 	std::vector<std::vector<double>> inverse_of_X_transpose_X(X_transpose_X.size(), rows);
 	// find the inverse
 	print("Finding (X'X)^-1");
+	// Print the matrix shapes for debug messages
+	std::stringstream s1;
+	s1 << "Shape of X transpose X: " << X_transpose_X.size() << "," << X_transpose_X[0].size();
+	print(s1.str());
+	std::stringstream s2;
+	s2 << "Shape of inverse of X transpose X: " << inverse_of_X_transpose_X.size() << "," << inverse_of_X_transpose_X[0].size();
+	print(s2.str());
 	mat.inverse(X_transpose_X, inverse_of_X_transpose_X);
 	// Reshape y
 	print("Reshaping y");
@@ -103,4 +111,9 @@ void LinearRegression::save_model(std::string model_name)
 	{
 		throw "File cannot be opened for saving the model. May be the file is opened in some other place or you might not have proper permissions.";
 	}
+}
+
+std::vector<double> LinearRegression::get_bias()
+{
+	return bias;
 }
