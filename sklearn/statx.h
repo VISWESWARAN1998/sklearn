@@ -449,7 +449,7 @@ void event_complement(std::set<std::vector<T>> e, sample_space<T> S, std::set<st
 
 // Check whether two events are disjoint
 template<typename T>
-bool is_disjoint(std::set<std::vector<T>> event1, std::set<std::vector<T>> event2)
+bool is_disjoint(sample_space<T> S,std::set<std::vector<T>> event1, std::set<std::vector<T>> event2)
 {
 	// Check if all elements are present in the sample space
 	for (auto i : event1)if (!S.is_element_present(i)) throw element_not_in_sample_space();
