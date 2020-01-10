@@ -2,7 +2,7 @@
 
 #include "bnb.h"
 #include <sstream>
-
+#include <bits/stdc++.h>
 void bnb::print(std::string message)
 {
 	if (DEBUG) std::cout << message << "\n";
