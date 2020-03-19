@@ -24,11 +24,13 @@ private:
 	// Generate the headers
 	void generate_headers();
 
-	// Generate the encodings
-	void generate_encodings();
+	// tokenizer
+	std::vector<T> tokenize(T sentence);
+
 public:
 	count_vectorizer(std::vector<T> &sentences, unsigned long int max_features);
 	void get_array();
 	std::vector<T> get_headers();
-	std::map<T, unsigned long int> encodings();
+	std::vector<std::vector<unsigned long int>> encodings();
+	std::vector<unsigned long int> transform(T sentence);
 };

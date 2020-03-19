@@ -3,14 +3,6 @@
 #include "count_vectorizer.h"
 
 
-template<typename T>
-void count_vectorizer<T>::generate_encodings()
-{
-	for (unsigned long int i = 0; i < header_values.size(); i++)
-	{
-		encoded_values[header_values[i]] = i;
-	}
-}
 
 template<typename T>
 count_vectorizer<T>::count_vectorizer(std::vector<T> &sentences, unsigned long int max_features)
@@ -107,11 +99,37 @@ void count_vectorizer<T>::generate_headers()
 }
 
 template<typename T>
+std::vector<T> count_vectorizer<T>::tokenize(T sentence)
+{
+	std::vector<T> token_vector;
+	T word = "";
+	for (auto character : sentence)
+	{
+		if (character == ' ')
+		{
+			if (word != "")
+			{
+				token_vector.push_back(word);
+				word = "";
+			}
+		}
+		else
+		{
+			word += character;
+		}
+	}
+	if (word != "")
+	{
+		token_vector.push_back(word);
+	}
+	return token_vector;
+}
+
+template<typename T>
 void count_vectorizer<T>::get_array()
 {
 	generate_tokens_array();
 	generate_headers();
-	generate_encodings();
 }
 
 template<typename T>
@@ -120,10 +138,36 @@ std::vector<T> count_vectorizer<T>::get_headers()
 	return header_values;
 }
 
+
 template<typename T>
-std::map<T, unsigned long int> count_vectorizer<T>::encodings()
+std::vector<std::vector<unsigned long int>> count_vectorizer<T>::encodings()
 {
-	return encoded_values;
+	std::vector<std::vector<unsigned long int>> encodings_vector;
+	for (T sentence : sentences)
+	{
+		std::vector<T> tokens = tokenize(sentence);
+		std::vector<unsigned long int> token_count;
+		for (T header_value : header_values)
+		{
+			unsigned long int count = std::count(tokens.begin(), tokens.end(), header_value);
+			token_count.push_back(count);
+		}
+		encodings_vector.push_back(token_count);
+	}
+	return encodings_vector;
+}
+
+template<typename T>
+std::vector<unsigned long int> count_vectorizer<T>::transform(T sentence)
+{
+	std::vector<T> tokens = tokenize(sentence);
+	std::vector<unsigned long int> token_count;
+	for (T header_value : header_values)
+	{
+		unsigned long int count = std::count(tokens.begin(), tokens.end(), header_value);
+		token_count.push_back(count);
+	}
+	return token_count;
 }
 
 
