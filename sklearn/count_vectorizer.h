@@ -27,8 +27,11 @@ private:
 	// tokenizer
 	std::vector<T> tokenize(T sentence);
 
+	// Perform stemming
+	bool to_stem;
+
 public:
-	count_vectorizer(std::vector<T> &sentences, unsigned long int max_features);
+	count_vectorizer(std::vector<T> &sentences, unsigned long int max_features, bool to_stem);
 	void get_array();
 	std::vector<T> get_headers();
 	std::vector<std::vector<unsigned long int>> encodings();

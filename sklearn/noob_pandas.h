@@ -4,15 +4,16 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <typeinfo>
 #include "json.h"
 
 using json = nlohmann::json;
 
-template <typename T>
+template <typename D, typename T>
 class noob_pandas
 {
 private:
-	std::vector<std::vector<double>> X;
+	std::vector<std::vector<D>> X;
 	std::vector<T> y;
 
 public:
@@ -27,14 +28,24 @@ public:
 		unsigned long int max_index = j["max_index"];
 		for (unsigned long int i = 0; i < max_index; i++)
 		{
-			std::vector<double> independent = j[std::to_string(i)]["X"];
-			X.push_back(independent);
+			if (typeid(D).name() == typeid(std::string).name())
+			{
+				D x_val = j[std::to_string(i)]["X"];
+				std::vector<D> independent;
+				independent.push_back(x_val);
+				X.push_back(independent);
+			}
+			else
+			{
+				std::vector<D> independent = j[std::to_string(i)]["X"];
+				X.push_back(independent);
+			}
 			T dependent = j[std::to_string(i)]["y"];
 			y.push_back(dependent);
 		}
 	}
 
-	std::vector<std::vector<double>> get_X()
+	std::vector<std::vector<D>> get_X()
 	{
 		return X;
 	}

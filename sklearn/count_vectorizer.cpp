@@ -1,14 +1,16 @@
 // SWAMI KARUPPASWAMI THUNNAI
 
 #include "count_vectorizer.h"
+#include "porter2_stemmer.h"
 
 
 
 template<typename T>
-count_vectorizer<T>::count_vectorizer(std::vector<T> &sentences, unsigned long int max_features)
+count_vectorizer<T>::count_vectorizer(std::vector<T> &sentences, unsigned long int max_features, bool to_stem)
 {
 	this->sentences = sentences;
 	this->max_features = max_features;
+	this->to_stem = to_stem;
 }
 
 template<typename T>
@@ -23,6 +25,10 @@ void count_vectorizer<T>::generate_tokens_array()
 			{
 				if (word != "")
 				{
+					if (to_stem)
+					{
+						Porter2Stemmer::stem(word);
+					}
 					if (tokens.find(word) == tokens.end())
 					{
 						tokens[word] = 1;
@@ -43,6 +49,10 @@ void count_vectorizer<T>::generate_tokens_array()
 		}
 		if (word != "")
 		{
+			if (to_stem)
+			{
+				Porter2Stemmer::stem(word);
+			}
 			if (tokens.find(word) == tokens.end())
 			{
 				tokens[word] = 1;
@@ -109,6 +119,10 @@ std::vector<T> count_vectorizer<T>::tokenize(T sentence)
 		{
 			if (word != "")
 			{
+				if (to_stem)
+				{
+					Porter2Stemmer::stem(word);
+				}
 				token_vector.push_back(word);
 				word = "";
 			}
@@ -120,6 +134,10 @@ std::vector<T> count_vectorizer<T>::tokenize(T sentence)
 	}
 	if (word != "")
 	{
+		if (to_stem)
+		{
+			Porter2Stemmer::stem(word);
+		}
 		token_vector.push_back(word);
 	}
 	return token_vector;
