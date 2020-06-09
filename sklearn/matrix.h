@@ -293,9 +293,9 @@ public:
 				else if (j == i)
 					U[i][j] = 1;
 				else {
-					U[i][j] = matrix[i][j] / L[i][i];
+					U[i][j] = matrix[i][j] / (L[i][i] == 0)? 1: L[i][i];
 					for (k = 0; k < i; k++) {
-						U[i][j] = U[i][j] - ((L[i][k] * U[k][j]) / L[i][i]);
+						U[i][j] = U[i][j] - ((L[i][k] * U[k][j]) / (L[i][i] == 0)? 1: L[i][i]);
 					}
 				}
 			}
