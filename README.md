@@ -14,6 +14,7 @@ Trying to implement Scikit Learn for Python in C++
 
 #### CLASSIFIFCATION:
 1. [Gaussian Naive Bayes](https://github.com/VISWESWARAN1998/sklearn#classification---gaussian-naive-bayes)
+2. [Logistic Regression](https://github.com/VISWESWARAN1998/sklearn#logistic-regression)
 
 
 #### STANDARDIZATION
@@ -246,5 +247,65 @@ int main()
 	double female = probabilities[1];
 	if (male > female) std::cout << "MALE";
 	else std::cout << "FEMALE";
+}
+```
+
+#### Logistic Regression:
+Please do not get confused with the word "regression" in Logistic regression. It is generally used for classification problems. The heart of the logistic regession is sigmoid activation function. An activation function is a function which takes any input value and outputs value within a certain case. In our case(sigmoid), it returns between 0 and 1.
+
+In the image, you can see the output(y) of sigmoid activation function for -3 >= x <= 3
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Error_Function.svg/1280px-Error_Function.svg.png)
+
+The idea behind the logistic regression is taking the output from linear regression, i.e., y = mx+c and applying logistic function 1/(1+e^-y) which outputs the value between 0 and 1. We can clearly see this is a binary classifier, i.e., for example, it can be used for classifying binary datasets like predicting whether it is a male or a female using certain parameters.
+
+But we can use this logistic regression to classify multi-class problems too with some modifications. Here, we are using the one vs rest principle. That is training many linear regression models, for example, if the class count is 10, it will train 10 Linear Regression models by changing the class values with 1 as the class value to predict the probability and 0 to the rest. If you don't understand, here is a detailed explanation: [https://prakhartechviz.blogspot.com/2019/02/multi-label-classification-python.html](https://prakhartechviz.blogspot.com/2019/02/multi-label-classification-python.html)
+
+We are going to take a simple classification problem to classify whether it is a male or female.
+
+Classification male - female using height, weight, foot size and saving the model. Here is our dataset:
+
+![](https://www.codeproject.com/KB/recipes/5246467/1_BfEv3WPJtsijmYeJxR89Vg.png)
+
+All we have to do is to predict whether the person is male or female using height, weight and foot size.
+
+```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include <iostream>
+#include "logistic_regression.h"
+
+int main()
+{
+    logistic_regression lg({ { 6, 180, 12 },{ 5.92, 190, 11 },{ 5.58, 170, 12 },
+        { 5.92, 165, 10 },{ 5, 100, 6 },{ 5.5, 150, 8 },{ 5.42, 130, 7 },{ 5.75, 150, 9 } },
+        { 0, 0, 0, 0, 1, 1, 1, 1 }, NODEBUG);
+    lg.fit();
+    // Save the model
+    lg.save_model("model.json");
+    std::map<unsigned long int, double> probabilities = lg.predict({ 6, 130, 8 });
+    double male = probabilities[0];
+    double female = probabilities[1];
+    if (male > female) std::cout << "MALE";
+    else std::cout << "FEMALE";
+}
+```
+
+and loading a saved model:
+
+```c++
+// SWAMI KARUPPASWAMI THUNNAI
+
+#include <iostream>
+#include "logistic_regression.h"
+
+int main()
+{
+    logistic_regression lg("model.json");
+    std::map<unsigned long int, double> probabilities = lg.predict({ 6, 130, 8 });
+    double male = probabilities[0];
+    double female = probabilities[1];
+    if (male > female) std::cout << "MALE";
+    else std::cout << "FEMALE";
 }
 ```
